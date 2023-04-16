@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { RegisterUserSchema } from "../../../validations/users/registerUserValidation";
+import { AuthenticateUserSchema } from "../../../validations/users/authenticateUserValidation";
 
-export async function registerUserValidation(
+export async function authenticateUserValidation(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
   try {
-    RegisterUserSchema.parse(request.body);
+    AuthenticateUserSchema.parse(request.body);
 
     return next();
   } catch (error) {

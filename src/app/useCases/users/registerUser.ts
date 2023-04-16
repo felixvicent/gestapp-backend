@@ -1,15 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { RegisterUserInput } from "../../../validations/registerUserValidation";
-
-const prisma = new PrismaClient();
+import { RegisterUserInput } from "../../../validations/users/registerUserValidation";
 
 export async function registerUser(request: Request, response: Response) {
   try {
+    const prisma = new PrismaClient();
     const { name, email, password }: RegisterUserInput = request.body;
 
-    const userAlreadyExists = await prisma.user.findFirst({ where: { email } });
+    const userAlreadyExists = await prisma.user.findUnique({
+      where: { email },
+    });
 
     if (userAlreadyExists) {
       return response.status(400).json({ error: "User already exists" });

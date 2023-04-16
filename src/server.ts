@@ -1,13 +1,11 @@
-import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 import express from "express";
 
+import { router } from "./routes";
+
 const app = express();
 
-const prisma = new PrismaClient();
-
-app.get("/", (request, response) => {
-  response.json({ hello: "World" });
-});
+app.use(express.json());
+app.use(router);
 
 app.listen(process.env.APP_PORT);
